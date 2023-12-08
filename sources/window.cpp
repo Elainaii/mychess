@@ -17,17 +17,17 @@ window::window(int width, int length)
 	loadimage(&chessBroadImg, "../images/broad.jpg", 720, 720, false);
 
 	//初始化按钮
-	startGame = new button(980, 300, 70, 300, "开始游戏", buttonType::rectangle);
-	gameRecord = new button(980, 400, 70, 300, "游戏记录", buttonType::text);
-	aboutUs = new button(980, 500, 70, 300, "关于", buttonType::text);
-	menuExit = new button(980, 600, 70, 300, "退出游戏", buttonType::text);
-	PVPmode = new button(50, 500, 70, 300, "人人对战", buttonType::rectangle);
-	PVEmode1 = new button(450, 500, 70, 450, "人机模式", buttonType::rectangle);
-	PVEmode2 = new button(1000, 500, 200, 100, "人机模式（困难）", buttonType::text);
-	prevPiece = new button(1000, 600, 200, 100, "上一步", buttonType::text);
-	nextPiece = new button(1000, 300, 200, 100, "下一步", buttonType::text);
-	save = new button(1000, 300, 200, 100, "保存", buttonType::text);
-	backToMenu = new button(980, 600, 70, 300, "回到菜单", buttonType::rectangle);
+	startGame 	= new button(980, 300, 70, 300, "开始游戏", buttonType::rectangle);
+	gameRecord 	= new button(980, 400, 70, 300, "游戏记录", buttonType::text);
+	aboutUs 	= new button(980, 500, 70, 300, "关于", buttonType::text);
+	menuExit 	= new button(980, 600, 70, 300, "退出游戏", buttonType::text);
+	PVPmode 	= new button(50, 500, 60, 220, "人人对战", buttonType::rectangle);
+	PVEmode1 	= new button(450, 500, 70, 450, "人机模式", buttonType::rectangle);
+	PVEmode2 	= new button(1000, 500, 200, 100, "人机模式（困难）", buttonType::text);
+	prevPiece 	= new button(1000, 600, 200, 100, "上一步", buttonType::text);
+	nextPiece 	= new button(1000, 300, 200, 100, "下一步", buttonType::text);
+	save 		= new button(1000, 300, 200, 100, "保存", buttonType::text);
+	backToMenu 	= new button(980, 600, 70, 300, "回到菜单", buttonType::rectangle);
 
 }
 
@@ -121,17 +121,43 @@ void window::openPlay()
 		}
 		else if (msg.lbutton&&winFlag)
 		{
-			std::cout << "x:" << msg.x << "y:" << msg.y << std::endl;
-			std::cout << "x:" << int((msg.x - 22.5) / 45) << "y:" << int((msg.y - 22.5) / 45) << std::endl;
-			int i = (msg.x - 22.5) / 45;
-			int j = (msg.y - 22.5) / 45;
-			if (i >= 0 && i <= 14 && j >= 0 && j <= 14)
+			/*std::cout << "x:" << msg.x << "y:" << msg.y << std::endl;
+			std::cout << "x:" << int((msg.x - 22.5) / 45) << "y:" << int((msg.y - 22.5) / 45) << std::endl;*/
+			if(mode_ ==PVPMODE)
 			{
-				chessPlay.putchess(i, j);
+				int i = (msg.x - 22.5) / 45;
+				int j = (msg.y - 22.5) / 45;
+				if (i >= 0 && i <= 14 && j >= 0 && j <= 14)
+				{
+					chessPlay.putchess(i, j);
+					if(chessPlay.judgeNew()!=1)
+					{
+						std::cout<<"win!!!";
+						winFlag = false;
+					}
+				}
+			}
+			if(mode_ == PVEMODE1)
+			{
+				int i = (msg.x - 22.5) / 45;
+				int j = (msg.y - 22.5) / 45;
+				if (i >= 0 && i <= 14 && j >= 0 && j <= 14)
+				{
+					if(!chessPlay.putchess(i, j))
+						continue;
+					if(chessPlay.judgeNew()!=1)
+					{
+						std::cout<<"win!!!";
+						winFlag = false;
+						continue;
+					}
+				chessPlay.simpleAI();
+				}
 				if(chessPlay.judgeNew()!=1)
 				{
 					std::cout<<"win!!!";
 					winFlag = false;
+					continue;
 				}
 			}
 		}
@@ -158,10 +184,17 @@ void window::openOpt()
 			mode_ = PVPMODE;
 			break;
 		}
+		if(PVEmode1->state(msg))
+		{
+			state_ = PLAY_WINDOW;
+			mode_ = PVEMODE1;
+			break;
+		}
 	}
 	if(state_==PLAY_WINDOW)
 	{
 		openPlay();
-		sleep(1);
+		sleep(2);
 	}
+
 }

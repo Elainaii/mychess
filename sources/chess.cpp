@@ -42,7 +42,6 @@ int chess::subJudge(char* temp, const int& i, const int& j, const int& k)
 int chess::judgeNew()//判断赢没赢
 {
 	char temp[20] = {};//把一条线上的子存着
-	int ifWin = 0;
 	memset(temp, 1, sizeof(temp));
 	for (int k = 0; k < 4; k++)//4个方向
 	{
@@ -148,7 +147,7 @@ void chess::red(int i, int j, int k, int dest)//赢了标出来
 int chess::getChess(int i, int j)//这么做方便防止越界
 {
 	if (!(i >= 0 && i <= 14 && j >= 0 && j <= 14))
-		return EMPTY;
+		return OUT;
 	if (chessBroad[i + 5][j + 5] == BLACK_CHESS)
 		return BLACK_CHESS;
 	else if (chessBroad[i + 5][j + 5] == WHITE_CHESS)
