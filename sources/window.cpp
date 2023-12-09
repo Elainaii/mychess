@@ -23,11 +23,17 @@ window::window(int width, int length)
 	menuExit 	= new button(980, 600, 70, 300, "退出游戏", buttonType::text);
 	PVPmode 	= new button(50, 500, 60, 220, "人人对战", buttonType::rectangle);
 	PVEmode1 	= new button(450, 500, 70, 450, "人机模式", buttonType::rectangle);
+	PVEselect1 	= new button(980, 300, 70, 300, "玩家先手", buttonType::rectangle);
+	PVEselect2 	= new button(980, 400, 70, 300, "玩家后手", buttonType::rectangle);
 	PVEmode2 	= new button(1000, 500, 200, 100, "人机模式（困难）", buttonType::text);
 	prevPiece 	= new button(1000, 600, 200, 100, "上一步", buttonType::text);
 	nextPiece 	= new button(1000, 300, 200, 100, "下一步", buttonType::text);
-	save 		= new button(1000, 300, 200, 100, "保存", buttonType::text);
+	save 		= new button(980, 500, 70, 300, "保存", buttonType::rectangle);
 	backToMenu 	= new button(980, 600, 70, 300, "回到菜单", buttonType::rectangle);
+	pageUp 		= new button(980, 50, 70, 300, "上一页", buttonType::rectangle);
+	pageDown 	= new button(980, 150, 70, 300, "下一页", buttonType::rectangle);
+	for(int num =0;num<10;num++)
+		enter[num] = new button(750,80+50* num,50,100,"读取",buttonType::rectangle);
 
 }
 
@@ -80,7 +86,8 @@ void window::openMenu()
 		}
 		if (gameRecord->state(msg))
 		{
-			//to do
+			state_ = SAVE_WINDOW;
+			break;
 		}
 		if (aboutUs->state(msg))
 		{
@@ -93,15 +100,17 @@ void window::openMenu()
 	}
 	if (state_ == OPTION_WINDOW)
 		openOpt();
-
+	else if(state_ = SAVE_WINDOW)
+		openSave();
 }
 
-void window::openPlay()
+void window::openPlay(int mode,const chessData& t )
 {
 	state_ = PLAY_WINDOW;
-	chess chessPlay;
+	mode_ = mode;
 	cleardevice();
 	backToMenu->show();
+	save->show();
 	//putimage(0,0,&chessBroadImg);
 	setlinecolor(BLACK);
 	for (int i = 1; i <= 15; i++)
@@ -110,12 +119,23 @@ void window::openPlay()
 		line(5 + 45 * i, 50, 5 + 45 * i, 680);
 	}
 	bool winFlag = true;
+	bool aichessflag = true;
+	chessPlay.chessClear(mode,t);
+	if(chessPlay.judgeNew()!=1)
+		winFlag = false;
+	sleep(1);
 	while (1)
 	{
 		msg = getmessage();
 
 		if(backToMenu->state(msg))
 		{
+			state_ = MENU_WINDOW;
+			break;
+		}
+		else if(save->state(msg))
+		{
+			chessPlay.save();
 			state_ = MENU_WINDOW;
 			break;
 		}
@@ -137,8 +157,13 @@ void window::openPlay()
 					}
 				}
 			}
-			if(mode_ == PVEMODE1)
+			else if(mode_ == PVEMODE1||mode_ ==PVEMODE2)
 			{
+				if(mode_ == PVEMODE2&&aichessflag)
+				{
+					chessPlay.putchess(7,7);//机器下中间
+					aichessflag = false;
+				}
 				int i = (msg.x - 22.5) / 45;
 				int j = (msg.y - 22.5) / 45;
 				if (i >= 0 && i <= 14 && j >= 0 && j <= 14)
@@ -160,6 +185,7 @@ void window::openPlay()
 					continue;
 				}
 			}
+
 		}
 
 	}
@@ -186,15 +212,122 @@ void window::openOpt()
 		}
 		if(PVEmode1->state(msg))
 		{
-			state_ = PLAY_WINDOW;
-			mode_ = PVEMODE1;
+			state_ = OPTSEL_WINDOW;
+			break;
+		}
+		if(backToMenu->state(msg))
+		{
+			state_ = MENU_WINDOW;
 			break;
 		}
 	}
 	if(state_==PLAY_WINDOW)
 	{
-		openPlay();
-		sleep(2);
+		openPlay(mode_);
+	}
+	else if(state_==OPTSEL_WINDOW)
+	{
+		openOptSel();
+	}
+	else if(state_==MENU_WINDOW)
+	{
+		openMenu();
 	}
 
 }
+
+void window::openOptSel()
+{
+	state_ = OPTSEL_WINDOW;
+	cleardevice();
+	PVEselect1->show();
+	PVEselect2->show();
+	backToMenu->show();
+	while (1)
+	{
+		msg = getmessage();
+
+		if(PVEselect1->state(msg))
+		{
+			mode_ = PVEMODE1;
+			state_ = PLAY_WINDOW;
+			break;
+		}
+		else if(PVEselect2->state((msg)))
+		{
+			mode_ = PVEMODE2;
+			state_ = PLAY_WINDOW;
+			break;
+		}
+		else if(backToMenu->state(msg))
+		{
+			state_ = MENU_WINDOW;
+			break;
+		}
+
+	}
+	if(state_==MENU_WINDOW)
+	{
+		openMenu();
+	}
+	else if(state_==PLAY_WINDOW)
+	{
+		openPlay(mode_);
+	}
+}
+
+void window::openSave()
+{
+	state_ = SAVE_WINDOW;
+	table tableChess(chessPlay.load());
+	cleardevice();
+	backToMenu->show();
+	pageDown->show();
+	pageUp->show();
+	tableChess.show();
+	chessData t;
+	while(1)
+	{
+		msg = getmessage();
+		if(backToMenu->state(msg))
+		{
+			state_ = MENU_WINDOW;
+			break;
+		}
+		else if(pageUp->state(msg))
+		{
+			tableChess.pageup();
+		}
+		else if(pageDown->state(msg))
+		{
+			tableChess.pagedown();
+		}
+		else
+		{
+			bool flag =0;
+			for(int i =0;i<10;i++)
+				if(enter[i]->state(msg))
+				{
+					t = tableChess.entergame(i);
+					if(t.id!=0)
+					{
+						flag =1;
+						state_ = PLAY_WINDOW;
+						break;
+					}
+				}
+			if(flag)
+				break;
+		}
+	}
+	if(state_ == MENU_WINDOW)
+	{
+		openMenu();
+	}
+	else if(state_ == PLAY_WINDOW)
+	{
+		openPlay(t.mode,t);
+	}
+
+}
+

@@ -1,7 +1,8 @@
 cmake_minimum_required(VERSION 3.26)
 project(chess_new)
-include_directories(./EasyX/include)
-link_directories(./EasyX/lib64)
+include_directories(include/Easyx/include)
+include_directories(include/nlohmann)
+link_directories(include/Easyx/lib64)
 link_libraries(libeasyx.a)
 set(CMAKE_CXX_STANDARD 11)
 include_directories(./headers)
@@ -19,5 +20,9 @@ add_executable(chess_new main.cpp
         sources/chess.cpp
         sources/cheessai.cpp
         headers/chessai.h
+        headers/data.h
+        sources/data.cpp
+        headers/table.h
+        sources/table.cpp
         #sources/openmenu.cpp
 )

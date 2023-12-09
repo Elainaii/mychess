@@ -8,6 +8,8 @@
 #define BLACK_CHESS 10
 #define EMPTY 1
 #define OUT 100
+#define PVPMODE 100
+#define PVEMODE1 200
 #define NOTHING 0
 #define WIN5 999999
 #define ALIVE4 10000
@@ -21,22 +23,37 @@
 #define DIE2
 #include "vector"
 #include "graphics.h"
+#include "nlohmann/json.hpp"
+using nlohmann::json;
 struct chessxy
 {
 	int i_;
 	int j_;
 	int currChess;
+	int step;
+};
+struct chessData
+{
+	int id;
+	int mode;
+	int totalStep;
+	std::vector<chessxy> xy_;
+	bool isEnd;
 };
 class chess
 {
  protected:
 	char chessBroad[30][30];
-	std::vector<chessxy> xy_;
+	std::vector<chessData> data_;//存储所有棋局数据
+	std::vector<chessxy> xy_;//存储单次棋局数据
 	int currChess_;
-	int mode;//0为人机，1为人人，2电子斗蛐蛐
+	int step_;
+	int mode_;
+	bool isEnd_;
  public:
-	chess();
+	chess(int mode = PVPMODE);
 	chess(const std::vector<chessxy>& xy);
+	void chessClear(int mode = PVPMODE,const chessData& t ={});
 	bool putchess(int i,int j);
 	void red(int i,int j,int k,int dest);
 	int judgeNew();
@@ -45,5 +62,9 @@ class chess
 	//ai部分
 	int score(int i,int j,int who);
 	void simpleAI();
+	//文件读写json
+	std::vector<chessData> load();
+	void save();
+
 };
 #endif //CHESS_NEW_HEADERS_CHESS_H_

@@ -20,14 +20,15 @@ void button::show(COLORREF color) const
 	RECT rect = { x_, y_, x_ + length_, y_ + width_ };
 	setlinestyle(PS_SOLID, 2);
 	setfillcolor(color);
-	settextstyle(width_, 0, "свт╡");
 	settextcolor(BLACK);
 	if (type_ == buttonType::text)
 	{
+		settextstyle(width_, 0, "свт╡");
 		drawtext(buttonText_, &rect, DT_CENTER | DT_VCENTER | DT_SINGLELINE);
 	}
 	else
 	{
+		settextstyle(width_/1.5, 0, "свт╡");
 		fillrectangle(x_, y_, x_ + length_, y_ + width_);
 		drawtext(buttonText_, &rect, DT_CENTER | DT_VCENTER | DT_SINGLELINE);
 	}

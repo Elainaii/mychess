@@ -6,18 +6,42 @@
 #include "cstring"
 #include "graphics.h"
 #include "window.h"
-chess::chess()//重新开始
+#include "nlohmann/json.hpp"
+using nlohmann::json;
+chess::chess(int mode)//重新开始
 {
 	std::memset(chessBroad, 1, sizeof(chessBroad));
+	data_ = load();
+	mode_ = mode;
 	currChess_ = BLACK_CHESS;
+	step_ = 1;
+	isEnd_ = false;
+	xy_ ={};
 }
-chess::chess(const std::vector<chessxy>& xy)//读取存档 todo
+void chess::chessClear(int mode, const chessData& t)
 {
-	for (int i = 0; i < xy.size(); i++)
+	if(t.id==0)
 	{
-		chessBroad[xy[i].i_][xy[i].j_] = xy[i].currChess;
+		std::memset(chessBroad, 1, sizeof(chessBroad));
+		data_ = load();
+		mode_ = mode;
+		currChess_ = BLACK_CHESS;
+		step_ = 1;
+		isEnd_ = false;
+		xy_ ={};
 	}
-
+	else
+	{
+		std::memset(chessBroad, 1, sizeof(chessBroad));
+		data_ = load();
+		mode_ = mode;
+		step_ = 1;
+		xy_ ={};
+		for(int i =0;i<t.totalStep;i++)
+		{
+			putchess(t.xy_[i].i_,t.xy_[i].j_);
+		}
+	}
 }
 
 int chess::subJudge(char* temp, const int& i, const int& j, const int& k)
@@ -27,11 +51,13 @@ int chess::subJudge(char* temp, const int& i, const int& j, const int& k)
 	if (strstr(temp, tarWhite) != NULL)
 	{
 		red(i, j, k, temp - strstr(temp, tarWhite));
+		isEnd_ = true;
 		return WHITE_CHESS;
 	}
 	else if (strstr(temp, tarBlack) != NULL)
 	{
 		red(i, j, k, temp - strstr(temp, tarBlack));
+		isEnd_ = true;
 		return BLACK_CHESS;
 	}
 	else
@@ -101,13 +127,14 @@ int chess::judgeNew()//判断赢没赢
 	return EMPTY;
 }
 
-bool chess::putchess(int i, int j)//下棋
+bool chess::putchess(int i, int j)//下棋,并存储数据
 {
-	chessxy temp = { i, j, currChess_ };
+	chessxy temp = { i, j, currChess_,step_};
 	if (chessBroad[i + 5][j + 5] == EMPTY)
 	{
 		chessBroad[i + 5][j + 5] = currChess_;
 		xy_.push_back(temp);
+		step_++;
 		if (currChess_ == BLACK_CHESS)
 		{
 			setfillcolor(BLACK);

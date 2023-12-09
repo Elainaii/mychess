@@ -8,6 +8,7 @@
     <file url="file://$PROJECT_DIR$/main.cpp" charset="GBK" />
     <file url="file://$PROJECT_DIR$/sources/button.cpp" charset="GBK" />
     <file url="file://$PROJECT_DIR$/sources/openmenu.cpp" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/sources/table.cpp" charset="GBK" />
     <file url="file://$PROJECT_DIR$/sources/window.cpp" charset="GBK" />
     <file url="PROJECT" charset="UTF-8" />
   </component>
