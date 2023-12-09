@@ -5,6 +5,7 @@
 
 void chess::simpleAI()
 {
+	//只算出攻击分和防守分，选出最大的下
 	chessxy ourPoint = {}, oppPoint = {};
 	int ourBestScore = 0, oppBestScore = 0;//我方攻击分，对方防守分
 	int ourBestSopp = 0, oppBestSour = 0;//我方攻击分最高时对方防守分
@@ -20,7 +21,7 @@ void chess::simpleAI()
 				continue;
 			int temp = score(i, j, currChess_);//对当前的位置打分，这是进攻分
 			int temp2 = score(i, j, oppChess);//防守分
-				if (temp > ourBestScore)
+			if (temp > ourBestScore)//找出攻击分最高的点
 			{
 				ourBestScore = temp;
 				ourBestSopp = temp2;
@@ -35,7 +36,7 @@ void chess::simpleAI()
 			}
 
 		}
-	for (int i = 0; i < 15; i++)
+	for (int i = 0; i < 15; i++)//找防守分就是该点对方攻击分
 		for (int j = 0; j < 15; j++)
 		{
 			if (getChess(i, j) != EMPTY)
@@ -56,7 +57,7 @@ void chess::simpleAI()
 				oppPoint.j_ = j;
 			}
 		}
-	if (ourBestScore > oppBestScore)
+	if (ourBestScore > oppBestScore)//下子
 	{
 		putchess(ourPoint.i_, ourPoint.j_);
 		currChess_ = oppChess;
@@ -71,13 +72,13 @@ void chess::simpleAI()
 int chess::score(int i, int j, int who)
 {
 	int win5 = 0, alive4 = 0, die4 = 0, ddie4 = 0, alive3 = 0,
-		dalive3 = 0, die3 = 0, alive2 = 0, dalive2 = 0, die2 = 0, nothing = 0;
+		dalive3 = 0, die3 = 0, alive2 = 0, dalive2 = 0, die2 = 0, nothing = 0;//各棋型数目
 	int opp = 0;
 	if (who == WHITE_CHESS)
 		opp = BLACK_CHESS;
 	else
 		opp = WHITE_CHESS;
-	for (int k = 0; k < 4; k++)
+	for (int k = 0; k < 4; k++)//找出各方向连子的长度以及边上棋子类型
 	{
 		int left[5] = {};
 		int right[5] = {};
@@ -89,7 +90,7 @@ int chess::score(int i, int j, int who)
 			ri.j_++;
 			while (getChess(le.i_, le.j_) == who)
 			{
-				le.j_--;//先减一次再进来
+				le.j_--;
 				l++;
 			}
 			while (getChess(ri.i_, ri.j_) == who)

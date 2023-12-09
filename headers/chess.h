@@ -8,6 +8,8 @@
 #define BLACK_CHESS 10
 #define EMPTY 1
 #define OUT 100
+#define PVPMODE 100
+#define PVEMODE1 200
 #define NOTHING 0
 #define WIN5 999999
 #define ALIVE4 10000
@@ -26,6 +28,7 @@ struct chessxy
 	int i_;
 	int j_;
 	int currChess;
+	int step;
 };
 class chess
 {
@@ -33,9 +36,10 @@ class chess
 	char chessBroad[30][30];
 	std::vector<chessxy> xy_;
 	int currChess_;
-	int mode;//0为人机，1为人人，2电子斗蛐蛐
+	int step_;
+	int mode_;//0为人机，1为人人，2电子斗蛐蛐
  public:
-	chess();
+	chess(int mode = PVPMODE);
 	chess(const std::vector<chessxy>& xy);
 	bool putchess(int i,int j);
 	void red(int i,int j,int k,int dest);

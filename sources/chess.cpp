@@ -6,10 +6,12 @@
 #include "cstring"
 #include "graphics.h"
 #include "window.h"
-chess::chess()//重新开始
+chess::chess(int mode)//重新开始
 {
 	std::memset(chessBroad, 1, sizeof(chessBroad));
+	mode_ = mode;
 	currChess_ = BLACK_CHESS;
+	step_ = 0;
 }
 chess::chess(const std::vector<chessxy>& xy)//读取存档 todo
 {
@@ -101,13 +103,14 @@ int chess::judgeNew()//判断赢没赢
 	return EMPTY;
 }
 
-bool chess::putchess(int i, int j)//下棋
+bool chess::putchess(int i, int j)//下棋,并存储数据
 {
-	chessxy temp = { i, j, currChess_ };
+	chessxy temp = { i, j, currChess_,step_};
 	if (chessBroad[i + 5][j + 5] == EMPTY)
 	{
 		chessBroad[i + 5][j + 5] = currChess_;
 		xy_.push_back(temp);
+		step_++;
 		if (currChess_ == BLACK_CHESS)
 		{
 			setfillcolor(BLACK);
