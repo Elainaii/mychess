@@ -21,13 +21,14 @@ void from_json(const nlohmann::json& j, chessxy& p) {
 
 //chessData结构体
 void to_json(nlohmann::json& j, const chessData& p) {
-	j = nlohmann::json{{"id", p.id},{"time", p.time}, {"mode", p.mode}, {"totalStep", p.totalStep}, {"xy", p.xy_}, {"isEnd", p.isEnd}};
+	j = nlohmann::json{{"id", p.id},{"time", p.time}, {"mode", p.mode},{"difficulty", p.difficulty}, {"totalStep", p.totalStep}, {"xy", p.xy_}, {"isEnd", p.isEnd}};
 }
 
 void from_json(const nlohmann::json& j, chessData& p) {
 	j.at("id").get_to(p.id);
 	j.at("time").get_to(p.time);
 	j.at("mode").get_to(p.mode);
+	j.at("difficulty").get_to(p.difficulty);
 	j.at("totalStep").get_to(p.totalStep);
 	j.at("xy").get_to(p.xy_);
 	j.at("isEnd").get_to(p.isEnd);
@@ -53,9 +54,9 @@ void chess::save()
 	std::string time_str = oss.str();  // 将输出转换为字符串
 	chessData data0;
 	if(data_.empty())
-		data0 = {1,time_str,mode_,step_,xy_,isEnd_};
+		data0 = {1,time_str,mode_,difficulty_,step_,xy_,isEnd_};
 	else
-		data0 = {data_.rbegin()->id + 1,time_str,mode_,step_,xy_,isEnd_};
+		data0 = {data_.rbegin()->id + 1,time_str,mode_,difficulty_,step_,xy_,isEnd_};
 	data_.push_back(data0);
 	nlohmann::json j = data_;//将vector中存储的数据转换成json类型
 	std::ofstream file("chessData.json");

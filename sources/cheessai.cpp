@@ -290,33 +290,67 @@ int chess::score(int i, int j, int who)
 				nothing++;
 		}
 	}
-	if (win5 >= 1)
-		return 14;//赢5
-	if (alive4 >= 1 || die4 >= 2 || (die4 >= 1 && alive3 >= 1))
-		return 13;//活4 双死4 死4活3
-	if (alive3 >= 2)
-		return 12;//双活3
-	if (die3 >= 1 && alive3 >= 1)
-		return 11;//死3高级活3
-	if (die4 >= 1)
-		return 10;//高级死4
-	if (ddie4 >= 1)
-		return 9;//低级死4
-	if (alive3 >= 1)
-		return 8;//单活3
-	if (dalive3 >= 1)
-		return 7;//跳活3
-	if (alive2 >= 2)
-		return 6;//双活2
-	if (alive2 >= 1)
-		return 5;//活2
-	if (dalive2 >= 1)
-		return 4;//低级活2
-	if (die3 >= 1)
-		return 3;//死3
-	if (die2 >= 1)
-		return 2;//死2
-	return 1;//没有威胁
+	if(difficulty_ == HARDMODE)
+	{
+		if (win5 >= 1)
 
+			return 14;//赢5
+		if (alive4 >= 1 || die4 >= 2 || (die4 >= 1 && alive3 >= 1))
+			return 13;//活4 双死4 死4活3
+		if (alive3 >= 2)
+			return 12;//双活3
+		if (die3 >= 1 && alive3 >= 1)
+			return 11;//死3高级活3
+		if (die4 >= 1)
+			return 10;//高级死4
+		if (ddie4 >= 1)
+			return 9;//低级死4
+		if (alive3 >= 1)
+			return 8;//单活3
+		if (dalive3 >= 1)
+			return 7;//跳活3
+		if (alive2 >= 2)
+			return 6;//双活2
+		if (alive2 >= 1)
+			return 5;//活2
+		if (dalive2 >= 1)
+			return 4;//低级活2
+		if (die3 >= 1)
+			return 3;//死3
+		if (die2 >= 1)
+			return 2;//死2
+		return 1;//没有威胁
+	}
+	else
+	{
+		if (win5 >= 1)
+
+			return 14;//赢5
+		if (alive4 >= 1 || die4 >= 2 || (die4 >= 1 && alive3 >= 1))
+			return 13;//活4 双死4 死4活3
+		if (alive3 >= 2)
+			return 7;//双活3
+		if (die3 >= 1 && alive3 >= 1)
+			return 7;//死3高级活3
+		if (die4 >= 1)
+			return 9;//高级死4
+		if (ddie4 >= 1)
+			return 8;//低级死4
+		if (alive3 >= 1)
+			return 7;//单活3
+		if (dalive3 >= 1)
+			return 6;//跳活3
+		if (alive2 >= 2)
+			return 5;//双活2
+		if (alive2 >= 1)
+			return 4;//活2
+		if (dalive2 >= 1)
+			return 4;//低级活2
+		if (die3 >= 1)
+			return 3;//死3
+		if (die2 >= 1)
+			return 2;//死2
+		return 1;//没有威胁
+	}
 }
 

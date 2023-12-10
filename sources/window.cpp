@@ -23,8 +23,10 @@ window::window(int width, int length)
 	menuExit 	= new button(980, 600, 70, 300, "退出游戏", buttonType::text);
 	PVPmode 	= new button(980, 300, 70, 300, "人人对战", buttonType::text);
 	PVEmode1 	= new button(980, 400, 70, 300, "人机模式", buttonType::text);
-	PVEselect1 	= new button(980, 300, 70, 300, "玩家先手", buttonType::text);
-	PVEselect2 	= new button(980, 400, 70, 300, "玩家后手", buttonType::text);
+	PVEselect1 	= new button(980, 200, 70, 300, "困难先手", buttonType::text);
+	PVEselect2 	= new button(980, 300, 70, 300, "困难后手", buttonType::text);
+	PVEselect3 	= new button(980, 400, 70, 300, "简单先手", buttonType::text);
+	PVEselect4 	= new button(980, 500, 70, 300, "简单后手", buttonType::text);
 	PVEmode2 	= new button(1000, 500, 200, 100, "人机模式（困难）", buttonType::text);
 	prevPiece 	= new button(1000, 600, 200, 100, "上一步", buttonType::text);
 	nextPiece 	= new button(1000, 300, 200, 100, "下一步", buttonType::text);
@@ -77,10 +79,11 @@ void window::openMenu()
 		openSave();
 }
 
-void window::openPlay(int mode,const chessData& t )
+void window::openPlay(int mode, int difficulty, const chessData& t)
 {
 	state_ = PLAY_WINDOW;
 	mode_ = mode;
+	difficulty_ = difficulty;
 	cleardevice();
 	putimage(0, 0, &chessBroadImg);
 	backToMenu->show();
@@ -98,7 +101,7 @@ void window::openPlay(int mode,const chessData& t )
 	fillcircle( 920, 150 , 18);
 	bool winFlag = true;
 	bool aichessflag = true;
-	chessPlay.chessClear(mode,t);
+	chessPlay.chessClear(mode,t,difficulty_);
 	if(chessPlay.judgeNew()!=1)
 		winFlag = false;
 	sleep(1);
@@ -230,12 +233,28 @@ void window::openOptSel()
 		if(PVEselect1->state(msg))
 		{
 			mode_ = PVEMODE1;
+			difficulty_ = HARDMODE;
 			state_ = PLAY_WINDOW;
 			break;
 		}
 		else if(PVEselect2->state((msg)))
 		{
 			mode_ = PVEMODE2;
+			difficulty_ = HARDMODE;
+			state_ = PLAY_WINDOW;
+			break;
+		}
+		else if(PVEselect3->state(msg))
+		{
+			mode_ = PVEMODE1;
+			difficulty_ = EASYMODE;
+			state_ = PLAY_WINDOW;
+			break;
+		}
+		else if(PVEselect4->state(msg))
+		{
+			mode_ = PVEMODE2;
+			difficulty_ = EASYMODE;
 			state_ = PLAY_WINDOW;
 			break;
 		}
@@ -252,7 +271,7 @@ void window::openOptSel()
 	}
 	else if(state_==PLAY_WINDOW)
 	{
-		openPlay(mode_);
+		openPlay(mode_,difficulty_);
 	}
 }
 
@@ -307,7 +326,7 @@ void window::openSave()
 	}
 	else if(state_ == PLAY_WINDOW)
 	{
-		openPlay(t.mode,t);
+		openPlay(t.mode,t.difficulty,t);
 	}
 
 }

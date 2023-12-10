@@ -63,10 +63,14 @@ void table::show()//表格数据展示
 			rect = { 320, 30+j*50,  450, 80 +j*50};
 			if(data_[i-1].mode==PVPMODE)
 				drawtext("PVP",&rect,DT_CENTER | DT_VCENTER | DT_SINGLELINE);
-			else if(data_[i-1].mode == PVEMODE1)
-				drawtext("PVE先手",&rect,DT_CENTER | DT_VCENTER | DT_SINGLELINE);
-			else if(data_[i-1].mode == PVEMODE2)
-				drawtext("PVE后手",&rect,DT_CENTER | DT_VCENTER | DT_SINGLELINE);
+			else if(data_[i-1].mode == PVEMODE1&&data_[i-1].difficulty==EASYMODE)
+				drawtext("简单先手",&rect,DT_CENTER | DT_VCENTER | DT_SINGLELINE);
+			else if(data_[i-1].mode == PVEMODE1&&data_[i-1].difficulty==HARDMODE)
+				drawtext("困难先手",&rect,DT_CENTER | DT_VCENTER | DT_SINGLELINE);
+			else if(data_[i-1].mode == PVEMODE2&&data_[i-1].difficulty==EASYMODE)
+				drawtext("简单后手",&rect,DT_CENTER | DT_VCENTER | DT_SINGLELINE);
+			else if(data_[i-1].mode == PVEMODE2&&data_[i-1].difficulty==HARDMODE)
+				drawtext("困难后手",&rect,DT_CENTER | DT_VCENTER | DT_SINGLELINE);
 			rect = { 450, 30+j*50,  550, 80 +j*50};
 			str = std::to_string(data_[i-1].totalStep-1);//将数字转换成字符串。。。
 			LPCTSTR stepStr = str.c_str();

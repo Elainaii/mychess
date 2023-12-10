@@ -16,6 +16,8 @@
 #define OPTION_WINDOW 5
 #define OPTSEL_WINDOW 6
 #define PVPMODE 100
+#define EASYMODE 140
+#define HARDMODE 180
 #define PVEMODE1 200
 #define PVEMODE2 300
 using std::wstring;
@@ -25,6 +27,7 @@ class window:public widget
 	LPCTSTR windowTitle = "ZeroGobang";
 	int state_;
 	int mode_;
+	int difficulty_;
 	IMAGE menuImage;
 	IMAGE chessBroadImg;
 
@@ -34,7 +37,7 @@ class window:public widget
 	void openMenu();
 	void openOpt();
 	void openInfo();
-	void openPlay(int mode = PVPMODE,const chessData& t ={});
+	void openPlay(int mode = PVPMODE,int difficulty = HARDMODE,const chessData& t ={});
 	void openSave();
 	void openMSG();
 	void openOptSel();
@@ -54,6 +57,8 @@ class window:public widget
 	button *PVEmode2;
 	button *PVEselect1;
 	button *PVEselect2;
+	button *PVEselect3;
+	button *PVEselect4;
 	button *prevPiece;
 	button *nextPiece;
 	button *save;

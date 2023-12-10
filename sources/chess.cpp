@@ -10,23 +10,25 @@
 #include "unistd.h"
 #include "ctime"
 using nlohmann::json;
-chess::chess(int mode)//重新开始
+chess::chess(int mode,int difficulty)//重新开始
 {
 	std::memset(chessBroad, 1, sizeof(chessBroad));
 	data_ = load();
 	mode_ = mode;
 	currChess_ = BLACK_CHESS;
 	step_ = 1;
+	difficulty_ = difficulty;
 	isEnd_ = false;
 	xy_ ={};
 }
-void chess::chessClear(int mode, const chessData& t)
+void chess::chessClear(int mode, const chessData& t,int difficulty)
 {
 	if(t.id==0)
 	{
 		std::memset(chessBroad, 1, sizeof(chessBroad));
 		data_ = load();
 		mode_ = mode;
+		difficulty_ = difficulty;
 		currChess_ = BLACK_CHESS;
 		step_ = 1;
 		isEnd_ = false;
@@ -37,6 +39,7 @@ void chess::chessClear(int mode, const chessData& t)
 		std::memset(chessBroad, 1, sizeof(chessBroad));
 		data_ = load();
 		mode_ = mode;
+		difficulty_ = difficulty;
 		currChess_ = BLACK_CHESS;
 		step_ = 1;
 		xy_ ={};

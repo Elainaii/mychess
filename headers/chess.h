@@ -8,19 +8,12 @@
 #define BLACK_CHESS 10
 #define EMPTY 1
 #define OUT 100
+
 #define PVPMODE 100
+#define EASYMODE 140
+#define HARDMODE 180
 #define PVEMODE1 200
-#define NOTHING 0
-#define WIN5 999999
-#define ALIVE4 10000
-#define DIE4 500
-#define DDIE4
-#define ALIVE3
-#define DALIVE3
-#define DIE3
-#define ALIVE2
-#define DALIVE2
-#define DIE2
+#define PVEMODE2 300
 #include "vector"
 #include "graphics.h"
 #include "nlohmann/json.hpp"
@@ -37,6 +30,7 @@ struct chessData
 	int id;
 	std::string time;
 	int mode;
+	int difficulty;
 	int totalStep;
 	std::vector<chessxy> xy_;
 	bool isEnd;
@@ -50,11 +44,12 @@ class chess
 	int currChess_;
 	int step_;
 	int mode_;
+	int difficulty_;
 	bool isEnd_;
  public:
-	chess(int mode = PVPMODE);
+	chess(int mode = PVPMODE,int difficulty =HARDMODE);
 	chess(const std::vector<chessxy>& xy);
-	void chessClear(int mode = PVPMODE,const chessData& t ={});
+	void chessClear(int mode = PVPMODE,const chessData& t ={},int difficulty = HARDMODE);
 	bool putchess(int i,int j);
 	void red(int i,int j,int k,int dest);
 	int judgeNew();
