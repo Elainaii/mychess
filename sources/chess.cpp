@@ -7,6 +7,8 @@
 #include "graphics.h"
 #include "window.h"
 #include "nlohmann/json.hpp"
+#include "unistd.h"
+#include "ctime"
 using nlohmann::json;
 chess::chess(int mode)//重新开始
 {
@@ -35,11 +37,14 @@ void chess::chessClear(int mode, const chessData& t)
 		std::memset(chessBroad, 1, sizeof(chessBroad));
 		data_ = load();
 		mode_ = mode;
+		currChess_ = BLACK_CHESS;
 		step_ = 1;
 		xy_ ={};
 		for(int i =0;i<t.totalStep;i++)
 		{
 			putchess(t.xy_[i].i_,t.xy_[i].j_);
+			//对局回放
+			sleep(1);
 		}
 	}
 }
@@ -139,11 +144,15 @@ bool chess::putchess(int i, int j)//下棋,并存储数据
 		{
 			setfillcolor(BLACK);
 			fillcircle(50 + 45 * i, 50 + 45 * j, 18);
+			setfillcolor(WHITE);
+			fillcircle( 920, 150 , 18);
 		}
 		else
 		{
 			setfillcolor(WHITE);
 			fillcircle(50 + 45 * i, 50 + 45 * j, 18);
+			setfillcolor(BLACK);
+			fillcircle( 920, 150 , 18);
 		}
 		if (currChess_ == BLACK_CHESS)
 			currChess_ = WHITE_CHESS;

@@ -35,6 +35,7 @@ struct chessxy
 struct chessData
 {
 	int id;
+	std::string time;
 	int mode;
 	int totalStep;
 	std::vector<chessxy> xy_;

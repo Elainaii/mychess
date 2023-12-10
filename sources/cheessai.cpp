@@ -2,7 +2,7 @@
 // Created by Elaina on 2023/12/4.
 //
 #include "chess.h"
-
+#include "cstdlib"
 void chess::simpleAI()
 {
 	//只算出攻击分和防守分，选出最大的下
@@ -17,6 +17,8 @@ void chess::simpleAI()
 	for (int i = 0; i < 15; i++)
 		for (int j = 0; j < 15; j++)
 		{
+			srand(time(0));
+			int randNum = rand() %2;
 			if (getChess(i, j) != EMPTY)
 				continue;
 			int temp = score(i, j, currChess_);//对当前的位置打分，这是进攻分
@@ -34,11 +36,18 @@ void chess::simpleAI()
 				ourPoint.i_ = i;
 				ourPoint.j_ = j;
 			}
+			else if(temp == ourBestScore && temp2 == ourBestSopp&&randNum)//都一样就随机吧
+			{
+				ourPoint.i_ = i;
+				ourPoint.j_ = j;
+			}
 
 		}
 	for (int i = 0; i < 15; i++)//找防守分就是该点对方攻击分
 		for (int j = 0; j < 15; j++)
 		{
+			srand(time(0));
+			int randNum = rand() %2;
 			if (getChess(i, j) != EMPTY)
 				continue;
 			int temp = score(i, j,  oppChess);
@@ -53,6 +62,11 @@ void chess::simpleAI()
 			else if (temp == oppBestScore && temp2 > oppBestSour)//同理
 			{
 				oppBestSour = temp2;
+				oppPoint.i_ = i;
+				oppPoint.j_ = j;
+			}
+			else if(temp == oppBestScore && temp2 == oppBestSour&&randNum)
+			{
 				oppPoint.i_ = i;
 				oppPoint.j_ = j;
 			}

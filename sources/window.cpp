@@ -118,6 +118,10 @@ void window::openPlay(int mode,const chessData& t )
 		line(50, 5 + 45 * i, 680, 5 + 45 * i);
 		line(5 + 45 * i, 50, 5 + 45 * i, 680);
 	}
+	settextstyle(30,0,"行楷");
+	outtextxy(900,100,"现在该下：");
+	setfillcolor(BLACK);
+	fillcircle( 920, 150 , 18);
 	bool winFlag = true;
 	bool aichessflag = true;
 	chessPlay.chessClear(mode,t);
