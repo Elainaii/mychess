@@ -42,7 +42,7 @@ bool button::state(const ExMessage& msg)
 
 		if (mouseisIn(msg) && !msg.lbutton)//鼠标未按下和在里面0 悬停
 		{
-			show(BLUE);
+			show(LIGHTCYAN);
 			return false;
 		}
 		else if (mouseisIn(msg) && msg.lbutton)//鼠标按下在里面1 按下
@@ -61,13 +61,13 @@ bool button::state(const ExMessage& msg)
 		settextstyle(width_, 0, "幼圆");
 		if (mouseisIn(msg) && !msg.lbutton)//鼠标未按下和在里面0 悬停
 		{
-			settextcolor(WHITE);
+			settextcolor(YELLOW);
 			drawtext(buttonText_, &rect, DT_CENTER | DT_VCENTER | DT_SINGLELINE);
 			return false;
 		}
 		else if (mouseisIn(msg) && msg.lbutton)//鼠标按下在里面1 按下
 		{
-			settextcolor(WHITE);
+			settextcolor(LIGHTCYAN);
 			drawtext(buttonText_, &rect, DT_CENTER | DT_VCENTER | DT_SINGLELINE);
 			return true;
 		}

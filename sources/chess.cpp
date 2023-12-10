@@ -40,7 +40,7 @@ void chess::chessClear(int mode, const chessData& t)
 		currChess_ = BLACK_CHESS;
 		step_ = 1;
 		xy_ ={};
-		for(int i =0;i<t.totalStep;i++)
+		for(int i =0;i<t.totalStep-1;i++)
 		{
 			putchess(t.xy_[i].i_,t.xy_[i].j_);
 			//对局回放

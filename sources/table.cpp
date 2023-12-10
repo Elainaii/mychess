@@ -12,13 +12,15 @@ table::table(const std::vector<chessData>& data)
 	y_ = 10;
 	length_ = 1260;
 	width_ = 700;
-
+	loadimage(&image, "../images/elainaback.png", 1280, 720, false);
 }
 
 void table::show()//表格数据展示
 {
 	cleardevice();
+	putimage(0, 0, &image);
 	setlinecolor(BLACK);
+	settextcolor(BLACK);
 	for (int i = 0; i <= 11; i++)
 		line(50, 30 + 50 * i, 880, 30 + 50 * i);
 	line(50,30,50,580);
@@ -66,7 +68,7 @@ void table::show()//表格数据展示
 			else if(data_[i-1].mode == PVEMODE2)
 				drawtext("PVE后手",&rect,DT_CENTER | DT_VCENTER | DT_SINGLELINE);
 			rect = { 450, 30+j*50,  550, 80 +j*50};
-			str = std::to_string(data_[i-1].totalStep);//将数字转换成字符串。。。
+			str = std::to_string(data_[i-1].totalStep-1);//将数字转换成字符串。。。
 			LPCTSTR stepStr = str.c_str();
 			drawtext(stepStr,&rect,DT_CENTER | DT_VCENTER | DT_SINGLELINE);
 			rect = { 550, 30+j*50,  750, 80+j*50 };

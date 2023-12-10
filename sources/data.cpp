@@ -21,7 +21,7 @@ void from_json(const nlohmann::json& j, chessxy& p) {
 
 //chessData结构体
 void to_json(nlohmann::json& j, const chessData& p) {
-	j = nlohmann::json{{"id", p.id},{"time", p.time}, {"mode", p.mode}, {"totalStep", p.totalStep-1}, {"xy", p.xy_}, {"isEnd", p.isEnd}};
+	j = nlohmann::json{{"id", p.id},{"time", p.time}, {"mode", p.mode}, {"totalStep", p.totalStep}, {"xy", p.xy_}, {"isEnd", p.isEnd}};
 }
 
 void from_json(const nlohmann::json& j, chessData& p) {

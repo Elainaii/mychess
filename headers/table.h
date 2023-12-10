@@ -12,6 +12,7 @@ class table:public widget
  private:
 	std::vector<chessData>  data_;
 	int index_;
+	IMAGE image;
  public:
 	table(const std::vector<chessData>& data);
 	table();

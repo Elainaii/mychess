@@ -22,7 +22,7 @@ using std::wstring;
 class window:public widget
 {
  protected:
-	LPCTSTR windowTitle = "Îå×ÓÆå";
+	LPCTSTR windowTitle = "ZeroGobang";
 	int state_;
 	int mode_;
 	IMAGE menuImage;

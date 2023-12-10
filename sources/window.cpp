@@ -13,55 +13,28 @@ window::window(int width, int length)
 	setbkcolor(WHITE);//背景颜色
 	setbkmode(TRANSPARENT);//文字透明背景
 	//载入图片
-	loadimage(&menuImage, "../images/Elaina.png", 1280, 720, false);
-	loadimage(&chessBroadImg, "../images/broad.jpg", 720, 720, false);
+	loadimage(&menuImage, "../images/Elaina2.jpg", 1280, 720, false);
+	loadimage(&chessBroadImg, "../images/ElainaPlay.png", 1280, 720, false);
 
 	//初始化按钮
-	startGame 	= new button(980, 300, 70, 300, "开始游戏", buttonType::rectangle);
+	startGame 	= new button(980, 300, 70, 300, "开始游戏", buttonType::text);
 	gameRecord 	= new button(980, 400, 70, 300, "游戏记录", buttonType::text);
 	aboutUs 	= new button(980, 500, 70, 300, "关于", buttonType::text);
 	menuExit 	= new button(980, 600, 70, 300, "退出游戏", buttonType::text);
-	PVPmode 	= new button(50, 500, 60, 220, "人人对战", buttonType::rectangle);
-	PVEmode1 	= new button(450, 500, 70, 450, "人机模式", buttonType::rectangle);
-	PVEselect1 	= new button(980, 300, 70, 300, "玩家先手", buttonType::rectangle);
-	PVEselect2 	= new button(980, 400, 70, 300, "玩家后手", buttonType::rectangle);
+	PVPmode 	= new button(980, 300, 70, 300, "人人对战", buttonType::text);
+	PVEmode1 	= new button(980, 400, 70, 300, "人机模式", buttonType::text);
+	PVEselect1 	= new button(980, 300, 70, 300, "玩家先手", buttonType::text);
+	PVEselect2 	= new button(980, 400, 70, 300, "玩家后手", buttonType::text);
 	PVEmode2 	= new button(1000, 500, 200, 100, "人机模式（困难）", buttonType::text);
 	prevPiece 	= new button(1000, 600, 200, 100, "上一步", buttonType::text);
 	nextPiece 	= new button(1000, 300, 200, 100, "下一步", buttonType::text);
-	save 		= new button(980, 500, 70, 300, "保存", buttonType::rectangle);
-	backToMenu 	= new button(980, 600, 70, 300, "回到菜单", buttonType::rectangle);
-	pageUp 		= new button(980, 50, 70, 300, "上一页", buttonType::rectangle);
-	pageDown 	= new button(980, 150, 70, 300, "下一页", buttonType::rectangle);
+	save 		= new button(980, 500, 70, 300, "保存", buttonType::text);
+	backToMenu 	= new button(980, 600, 70, 300, "回到菜单", buttonType::text);
+	pageUp 		= new button(980, 50, 70, 300, "上一页", buttonType::text);
+	pageDown 	= new button(980, 150, 70, 300, "下一页", buttonType::text);
 	for(int num =0;num<10;num++)
-		enter[num] = new button(750,80+50* num,50,100,"读取",buttonType::rectangle);
+		enter[num] = new button(750,80+50* num,50,130,"读取",buttonType::rectangle);
 
-}
-
-void window::openMSG()
-{
-	openMenu();//先打开主菜单
-
-	while (1)//消息循环
-	{
-		msg = getmessage();//获取鼠标信息
-
-		if (state_ == MENU_WINDOW)
-		{
-			if (startGame->state(msg) == 1)
-				std::cout << "2333";
-			if (gameRecord->state(msg) == 1)
-				std::cout << gettextcolor();
-			if (aboutUs->state(msg) == 1)
-			{
-				//
-			}
-			if (menuExit->state(msg) == 1)
-			{
-				//
-			}
-		}
-
-	}
 }
 
 void window::openMenu()
@@ -71,7 +44,7 @@ void window::openMenu()
 	putimage(0, 0, &menuImage);
 	settextstyle(150, 0, "");
 	settextcolor(BLACK);
-	outtextxy(820, 90, "五子棋");
+	outtextxy(50, 90, "五子棋");
 	startGame->show();
 	gameRecord->show();
 	aboutUs->show();
@@ -109,6 +82,7 @@ void window::openPlay(int mode,const chessData& t )
 	state_ = PLAY_WINDOW;
 	mode_ = mode;
 	cleardevice();
+	putimage(0, 0, &chessBroadImg);
 	backToMenu->show();
 	save->show();
 	//putimage(0,0,&chessBroadImg);
@@ -201,6 +175,7 @@ void window::openOpt()
 {
 	state_ = OPTION_WINDOW;
 	cleardevice();
+	putimage(0, 0, &menuImage);
 	PVPmode->show();
 	PVEmode1->show();
 	backToMenu->show();
@@ -244,6 +219,7 @@ void window::openOptSel()
 {
 	state_ = OPTSEL_WINDOW;
 	cleardevice();
+	putimage(0, 0, &menuImage);
 	PVEselect1->show();
 	PVEselect2->show();
 	backToMenu->show();
@@ -285,6 +261,7 @@ void window::openSave()
 	state_ = SAVE_WINDOW;
 	table tableChess(chessPlay.load());
 	cleardevice();
+	putimage(0, 0, &menuImage);
 	backToMenu->show();
 	pageDown->show();
 	pageUp->show();

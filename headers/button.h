@@ -16,7 +16,7 @@ class button: public widget
 
 	button(int x =0,int y =0,int width =200,int length =100, const LPCTSTR &s ="°´Å¥",buttonType t =buttonType::text);
 	bool mouseisIn(const ExMessage &msg);
-	void show(COLORREF color = CYAN) const;
+	void show(COLORREF color = WHITE) const;
 	bool state(const ExMessage &msg);
 
 };
